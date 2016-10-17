@@ -7,21 +7,24 @@ import time
 
 pygame.mixer.init()
 
+NUM_SCENES = 3
+CURRENT_SCENE = 0
 
 SOUND_MAPPING = {
   0: ['samples/loop_amen.wav',0.7,True],
   1: ['samples/ambi_drone.wav',1,True],
   2: ['samples/bass_voxy_c.wav',0.5,True],
   3: ['samples/hello.ogg',1,False],
-  4: ['samples/elec_ping.wav',1,False],
-  5: ['samples/elec_plip.wav',1,False],
-  6: ['samples/elec_pop.wav',1,False],
-  7: ['samples/elec_triangle.wav',1,False],
+  4: ['samples/huelamp.ogg',1,False],
+  5: ['samples/shiva.ogg',1,False],
+  6: ['samples/jasur.ogg',1,False],
+  7: ['samples/faisal.ogg',1,False],
   8: ['samples/guit_e_fifths.wav',1,False],
   9: ['samples/guit_em9.wav',1,False],
   10: ['samples/guit_e_slide.wav',1,False],
   11: ['samples/guit_harmonics.wav',1,False],
-  12: ['samples/static.wav',1,False]
+  12: ['samples/static.wav',1,False],
+
    
 }
 
@@ -41,6 +44,7 @@ for key,data in SOUND_MAPPING.iteritems():
 #print is_loop
 
 static_sound = pygame.mixer.Sound('samples/radio-static.wav')
+ping_sound = pygame.mixer.Sound('samples/elec_pop.wav')
 
 def playSound(sound_id):
     print "playing ", sound_id
@@ -60,6 +64,12 @@ def stopSound(sound_id):
     sounds[sound_id].stop()
     sounds_playing[sound_id] = False
 
+def stopAllSounds():
+    for sound_id,data in SOUND_MAPPING.iteritems():
+        sounds[sound_id].stop()
+        sounds_playing[sound_id] = False
+
+
 
 # this method of reporting timeouts only works by convention
 # that before calling handle_request() field .timed_out is 
@@ -74,10 +84,38 @@ def quit_callback(path, tags, args, source):
     global run
     run = False
 
-
-def multi_callback(path, tags, args, source):
+def cap_callback(path, tags, args, source):
+    global CURRENT_SCENE
+    
     # don't do this at home (or it'll quit blender)
     #print path, tags, args, source
+    data = path.split("/")
+    cap = int(data[1][3]) + (CURRENT_SCENE * 4)  
+    val = int(args[0])
+
+    print "cap:", cap, val 
+    if val == 1:
+        playSound(cap)
+    if val == 0:
+        stopSound(cap)
+
+def pot_callback(path, tags, args, source):
+    global CURRENT_SCENE
+
+    data = path.split("/")
+    
+    pot = float(args[0])
+
+    new_scene = int(pot / 100 * NUM_SCENES)
+    if new_scene != CURRENT_SCENE:
+        for i in range(new_scene+1):
+            ping_sound.play()
+            time.sleep(0.1)
+        CURRENT_SCENE = new_scene
+    print pot, CURRENT_SCENE
+
+
+def multi_callback(path, tags, args, source):
     data = path.split("/")
     btn = int(data[1][3]) 
     val = int(data[2])
@@ -96,21 +134,23 @@ def seekbar_callback(path, tags, args, source):
 
     print "bar:", btn, val
 
-def pot_callback(path, tags, args, source):
-    data = path.split("/")
-    
-    pot = int(args[0])
-    print pot
 
 def static_callback(path, tags, args, source):
+    global CURRENT_SCENE
+    
     data = path.split("/")
     
     state = int(args[0])
     if state == 1:
         static_sound.play()
+        stopAllSounds()
     else:
         static_sound.stop()
-    
+        #playSound(CURRENT_SCENE * 4)
+        #time.sleep(1)
+        #stopSound(CURRENT_SCENE * 4)
+
+stopAllSounds()    
 #static_sound.play()
 server = OSCServer( ("0.0.0.0", 9995) )
 server.timeout = 0
@@ -171,6 +211,12 @@ server.addMsgHandler( "/tog7/0", multi_callback )
 server.addMsgHandler( "/tog7/1", multi_callback )
 server.addMsgHandler( "/tog8/0", multi_callback )
 server.addMsgHandler( "/tog8/1", multi_callback )
+
+server.addMsgHandler( "/cap0", cap_callback )
+server.addMsgHandler( "/cap1", cap_callback )
+server.addMsgHandler( "/cap2", cap_callback )
+server.addMsgHandler( "/cap3", cap_callback )
+
 
 server.addMsgHandler( "/seekBar1", seekbar_callback )
 server.addMsgHandler( "/seekBar1/1", seekbar_callback )

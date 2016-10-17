@@ -36,15 +36,15 @@ while True:
 		sendMessage('/static',0)
 			
 
-	elif val > 96:
+	elif val > 96 and val < ord('e'):
 		note = val - 97
 		print 'off',  note
-		sendMessage('/btn'+ str(note) + '/0',0)
+		sendMessage('/cap'+ str(note),0)
 
-	elif val < 78:
+	elif val < 69 and val > 64:
 		note = val - 65 
 		print 'on', note
-		sendMessage('/btn'+ str(note) + '/1', 1)
+		sendMessage('/cap'+ str(note), 1)
 
 	
 		
