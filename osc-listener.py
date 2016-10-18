@@ -11,19 +11,24 @@ NUM_SCENES = 3
 CURRENT_SCENE = 0
 
 SOUND_MAPPING = {
-  0: ['samples/loop_amen.wav',0.7,True],
-  1: ['samples/ambi_drone.wav',1,True],
-  2: ['samples/bass_voxy_c.wav',0.5,True],
-  3: ['samples/hello.ogg',1,False],
-  4: ['samples/huelamp.ogg',1,False],
-  5: ['samples/shiva.ogg',1,False],
-  6: ['samples/jasur.ogg',1,False],
-  7: ['samples/faisal.ogg',1,False],
-  8: ['samples/guit_e_fifths.wav',1,False],
-  9: ['samples/guit_em9.wav',1,False],
-  10: ['samples/guit_e_slide.wav',1,False],
-  11: ['samples/guit_harmonics.wav',1,False],
+  0: ['samples/freeky-synth.wav',1,True],
+  1: ['samples/freeky-alot2.wav',1,True],
+  2: ['samples/freeky-alot.wav',1,False],
+  3: ['samples/sheep-baa.wav',1,False],
+  4: ['samples/pen.wav',1,False],
+  5: ['samples/pineapple.wav',1,False],
+  6: ['samples/pen-beat.wav',0.5,True],
+  7: ['samples/ppap.wav',1,True],
+  8: ['samples/whip.wav',1,True],
+  9: ['samples/stanky-leg.wav',1,True],
+  10: ['samples/neigh-neigh.wav',1,False],
+  11: ['samples/whip-crack1.wav',1,False],
   12: ['samples/static.wav',1,False],
+  13: ['samples/static.wav',1,False],
+  14: ['samples/static.wav',1,False],
+  15: ['samples/freeky-synth.wav',1,True],
+
+
 
    
 }
