@@ -7,27 +7,41 @@ import time
 
 pygame.mixer.init()
 
-NUM_SCENES = 3
+NUM_SCENES = 6
 CURRENT_SCENE = 0
 
 SOUND_MAPPING = {
-  0: ['samples/freeky-synth.wav',1,True],
-  1: ['samples/freeky-alot2.wav',1,True],
-  2: ['samples/freeky-alot.wav',1,False],
-  3: ['samples/sheep-baa.wav',1,False],
-  4: ['samples/pen.wav',1,False],
-  5: ['samples/pineapple.wav',1,False],
-  6: ['samples/pen-beat.wav',0.5,True],
-  7: ['samples/ppap.wav',1,True],
-  8: ['samples/whip.wav',1,True],
-  9: ['samples/stanky-leg.wav',1,True],
-  10: ['samples/neigh-neigh.wav',1,False],
-  11: ['samples/whip-crack1.wav',1,False],
-  12: ['samples/static.wav',1,False],
-  13: ['samples/static.wav',1,False],
-  14: ['samples/static.wav',1,False],
-  15: ['samples/freeky-synth.wav',1,True],
+  0: ['samples/ambi-key.ogg',1,True],
+  1: ['samples/choir1.wav',1,True],
+  2: ['samples/choir2.wav',1,True],
+  3: ['samples/choir3.wav',1,True],
 
+  4: ['samples/goreng.wav',1,True],
+  5: ['samples/ada.wav',1,False],
+  6: ['samples/teh.wav',1,True],
+  7: ['samples/bungkus.wav',1,False],
+  
+  8: ['samples/hello.wav',1,False],
+  9: ['samples/massage.wav',1,False],
+  10: ['samples/mmm.wav',1,True],
+  11: ['samples/callme.wav',1,False],
+  
+  12: ['samples/freeky-alot2.wav',1,False],
+  13: ['samples/freeky-synth.wav',1,True],
+  14: ['samples/freeky-alot.wav',1,True],
+  15: ['samples/sheep-baa.wav',1,False],
+  
+  16: ['samples/whip-crack.wav',1,False],
+  17: ['samples/neigh-neigh.wav',1,False],
+  18: ['samples/whip.wav',1,True],
+  19: ['samples/stanky-leg.wav',1,True],
+  
+  20: ['samples/pen-beat.wav',0.5,True],
+  21: ['samples/pen.wav',1,False],
+  22: ['samples/pineapple.wav',1,False],
+  23: ['samples/ppap.wav',1,True],
+ 
+  
 
 
    
@@ -113,9 +127,11 @@ def pot_callback(path, tags, args, source):
 
     new_scene = int(pot / 100 * NUM_SCENES)
     if new_scene != CURRENT_SCENE:
-        for i in range(new_scene+1):
-            ping_sound.play()
-            time.sleep(0.1)
+        #for i in range(new_scene+1):
+        playSound(new_scene * 4)
+        time.sleep(1)
+        stopSound(new_scene * 4)
+
         CURRENT_SCENE = new_scene
     print pot, CURRENT_SCENE
 

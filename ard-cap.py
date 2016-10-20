@@ -15,8 +15,11 @@ def sendMessage(address, value):
 	msg = OSC.OSCMessage()
 	msg.setAddress(address)
 	msg.append(value)
-	c.send(msg)
-	print msg
+	try:
+		c.send(msg)
+	except:
+		print "Error sending OSC message"
+		print msg
 
 sendMessage('/static',0)
 
